@@ -1,0 +1,213 @@
+---
+title: "Stat project"
+author: "Ryan Voyack"
+output: html_document
+---
+due: "December 9, 2016"
+
+```{r echo=FALSE, results='asis'}
+cat("Source Documents: ")
+DataComputing::includeSourceDocuments()
+```
+
+```{r setup, include=FALSE}
+library(DataComputing)
+knitr::opts_chunk$set(echo = TRUE)
+library("rvest")
+library(tidyr)
+library(lubridate)
+``` 
+
+
+##Reproducable research
+*In order to run with this source code (in R Studio) correctly on your computer*:
+
+* ```First (by following the instruction below) download two files``` [here](https://nccd.cdc.gov/uscs/cancersrankedbystate.aspx#text)```:```
+
+```
+In the peach/tan colored rectangle (with rounded edges), enter: 2013 for 'year', and then 'Lung and Bronchus' in the box immediately to its right. Press "go". 
+The first data to show up will be incidence rates (per state), press "Download data" (the option is on top right of the output window).
+#Be sure to download these as .txt files
+Then, click the "Death Rates" option and click "Download data" again to download that data file.
+Be sure to do all of this while keeping the gender preference unchanged (where it's default is our desired "Male and Female").
+```
+
+* ```Then, download these (below) three files``` [here](https://aqsdr1.epa.gov/aqsweb/aqstmp/airdata/download_files.html#Annual)```:```
+
+```
+daily_81102_2013.csv
+daily_42602_2013.csv
+daily_LEAD_2013.csv
+#Download these as csv files
+```
+* Lastly, to run this code successfully on your computer, you will have to edit the file path names (to coincide, instead, with **your** files) in lines 54, 56, 60, 62 and 64.
+ 
+##Motivation
+
+
+According to the World Health Organization, WHO, "The International Agency for Research on Cancer (IARC) has classified outdoor air pollution as a cancer-causing agent (carcinogen). The IARC is part of the World Health Organization, and is one of the primary sources for information on cancer-causing substances for the American Cancer Society and other organizations. In its evaluation, the IARC concluded that outdoor air pollution causes lung cancer and is also linked to an increased risk for bladder cancer." - http://www.cancer.org/cancer/news/world-health-organization-outdoor-air-pollution-causes-cancer
+
+So with this project i will draw from data tables that both represent air quality by state, and cancer death and case rates by state; both representative of the year 2013. I found the cancer instance and death tables (by state) on the CDC's (Center of Disease Control) website. Since the carcinogens that I'll cite mainly contribute to lung cancer, I will use data tables that pertain excludively to this disease. 
+http://www.cdc.gov/cancer/dcpc/data/state.htm. I didn't download the csv here because it contained abbreviations for the state names, so - in order to be able to more easily join these tables with the air quality tables later on - I downloaded the same file HERE, only this time as a text file (I did have to manually edit the text files to an extent, including ) - https://nccd.cdc.gov/uscs/cancersrankedbystate.aspx#text 
+
+```{r}
+Cancer_incidence <- read.table(file = "file:///C:/Users/ryan voyack/Documents/PSU (courses,etc) & Act-Sci (exams, etc)/Courses Undergrad (R; STAT)/Stat 184/final project/Table 5.15.1MF.txt", header = FALSE, sep="\t", quote = "\"'", dec = ".", numerals = "no.loss", row.names = NULL, col.names = c("", "order", "State.Name", "rate"), as.is = c("order", "State.Name", "rate"), na.strings = "NA", colClasses = NA, nrows = -1, skip = 0, check.names = TRUE, fill = FALSE, strip.white = TRUE, blank.lines.skip = TRUE, comment.char = "", allowEscapes = TRUE, flush = FALSE, stringsAsFactors = TRUE, fileEncoding = "", encoding = "unknown", text, skipNul = FALSE)
+
+Cancer_deaths <- read.table(file = "file:///C:/Users/ryan voyack/Documents/PSU (courses,etc) & Act-Sci (exams, etc)/Courses Undergrad (R; STAT)/Stat 184/final project/Table 5.15.2MF.txt", header = FALSE, sep="\t", quote = "\"'", dec = ".", numerals = "no.loss", row.names = NULL, col.names = c("", "order", "State.Name", "rate"), as.is = c("order", "State.Name", "rate"), na.strings = "NA", colClasses = NA, nrows = -1, skip = 0, check.names = TRUE, fill = FALSE, strip.white = TRUE, blank.lines.skip = TRUE, comment.char = "", allowEscapes = TRUE, flush = FALSE, stringsAsFactors = TRUE, fileEncoding = "", encoding = "unknown", text, skipNul = FALSE)
+```
+
+```{r}
+Lead_in_air <- read.csv(file = "file:///C:/Users/ryan voyack/Documents/PSU (courses,etc) & Act-Sci (exams, etc)/Courses Undergrad (R; STAT)/Stat 184/final project/daily_LEAD_2013.csv", header=TRUE, sep=",")
+
+Particulate_matter <- read.csv(file = "file:///C:/Users/ryan voyack/Documents/PSU (courses,etc) & Act-Sci (exams, etc)/Courses Undergrad (R; STAT)/Stat 184/final project/daily_81102_2013.csv", header=TRUE, sep=",")
+
+Nitrogen_dioxide <- read.csv(file = "file:///C:/Users/ryan voyack/Documents/PSU (courses,etc) & Act-Sci (exams, etc)/Courses Undergrad (R; STAT)/Stat 184/final project/daily_42602_2013.csv", header=TRUE, sep=",")
+```
+
+**To justify my selection:**
+
+* ***nitrogen dioxide:***
+From a noteworthy article of communicated results, " http://ehp.niehs.nih.gov/1408882/", we see can safely say that nitrogen dioxide is a considerable carcinogen:    "The results for NOx and NO2 are compatible with the hypothesis that traffic-related air pollution increases the risk of lung cancer. Further, the IARC has classified exposure to diesel exhaust as a Group I carcinogen (Benbrahim-Tallaa et al. 2012)... A recent systematic review and meta-analysis evaluated the evidence from epidemiology of lung cancer associated with particulate matter exposure (Hamra et al. 2014); importantly, road traffic is an important contributor to urban particulate matter. The evidence supported the recent classification of ambient air pollution and particulate matter as a Group 1 carcinogen by the International Agency for Research on Cancer (IARC)."    To clear up some jargon, a group 1 carcinogen is grouped amongst the most potent and dangerous carcingoens. Also please note that the majority of traffic emissions, to cite particularly diesel emissions, are comprised primarily of nitrogen dioxide gas (NOx ~ or, nitrogen oxides).
+
+* ***particulate matter:***
+"Definition (of PM, 'particulate matter') and principal sources...
+PM affects more people than any other pollutant... It consists of a complex mixture of solid and liquid particles of organic and inorganic substances suspended in the air. The most health-damaging particles are those with a diameter of 10 microns or less, (??? PM10), which can penetrate and lodge deep inside the lungs. Chronic exposure to particles contributes to the risk of developing cardiovascular and respiratory diseases, as well as of lung cancer." - "http://www.who.int/mediacentre/factsheets/fs313/en/"
+
+* ***lead:***
+Lead is can be found in the air as a particulate/toxin, and has since been highly combated and reduced with regulaton, but is still present. Lead is right behind group 1 agents - whom are "Carcinogenic to humans" - as it are classified as a group 2A agent, meaning that it's "Probably carcinogenic to humans". This source references WHO also and is pretty redundant in that it matches the information in all of my sources, "http://www.cancer.org/cancer/cancercauses/othercarcinogens/generalinformationaboutcarcinogens/known-and-probable-human-carcinogens".
+
+##Objective
+
+
+We'll see how well each variable is at explaining (lung) cancer death and incidence:
+
+###Step 1: Preparing the data sets
+
+In looking at the cancer data tables, notice the states (the cases) are ordered by not only by the order variable, but also, by their rate, from highest to lowest. This rate variable is what were interested in, it measures the rate that the instance, death or diagnosis, happened - each out of 100,000 people. 
+
+Also, to make sense of the numbers we got for each of the pollutants, we'll compare the numbers to the 'guidelines' - or limits on the values of each measurement to be enforced so as to promote air quality that is not detrimental to human health - that WHO set for each pollutant. The guideline for particulate matter of 10 microns in diameter or less (which is the type of particulate matter recorded in the data set that we have) is 50 micrograms per cubic meter within a 24 hour mean, or also, 20 micrograms per cubic meter as an average over the course of one year. For nitrogen dioxide, the guideline values are 200 micrograms per cubic meter over the span of one hour, and 40 micrograms per cubic meter as an average that spans one year. http://www.who.int/mediacentre/factsheets/fs313/en/ 
+For lead, WHO did not create guidelines that were as rigorous as the previous, but for the limit of contamination in the air, a decent approximation that they cite is (to keep levels) at or below 0.5 micrograms per cubic meter as a yearly average. http://www.euro.who.int/__data/assets/pdf_file/0005/74732/E71922.pdf (chapter 7.6, page 149 of the document its self, not the PDF - see the table of contents.) 
+
+***Clean the CDC (cancer) data tables***
+
+```{r}
+#use both str(Cancer_incidence) and str(Cancer_deaths)
+Cancer_incidence[[40,3]] <- "District Of Columbia"
+Cancer_deaths[[40,3]] <- "District Of Columbia"
+#change the "o" in the "District of Columbia" to a capital "O" to match the EPA's data frame vector in order to properly left join and graph, etc., later on.
+Cancer_incidence <- Cancer_incidence %>% tail(50)
+Cancer_deaths <- Cancer_deaths %>% tail(51)
+Cancer_incidence <- Cancer_incidence %>% select(order, State.Name, rate)
+Cancer_deaths <- Cancer_deaths %>% select(order, State.Name, rate) 
+#Note: This "rate" variable measures the rate that the instance, death or diagnosis, happened - each out of 100,000 people.
+```
+
+
+***Clean the EPA (air pollutant) data tables, create single air pollutant table***
+
+1) First lets get rid of all the data for the State.name variables of each table that either is not one of the 50 states. I read through the data sets using factor(), levels() and str(). 2) Also many variables in these tables (EPA) are not of use and will be discarded for this initial step (see table 5.2, http://aqsdr1.epa.gov/aqsweb/aqstmp/airdata/FileFormats.html). The "Units of Measure" and "Arithmetic Mean" variables are of particular interest to us to use as quantitative measures for computations.
+
+```{r}
+Lead_in_air <- Lead_in_air %>% filter(State.Name != "Country Of Mexico", State.Name != "Puerto Rico" )
+Nitrogen_dioxide <- Nitrogen_dioxide %>% filter(State.Name != "Country Of Mexico", State.Name != "Puerto Rico" )
+Particulate_matter <- Particulate_matter %>% filter(State.Name != "Country Of Mexico", State.Name != "Puerto Rico", State.Name != "Virgin Islands")
+
+Lead_in_air <- Lead_in_air %>% select(State.Name, State.Code, Latitude, Longitude, Date.Local, Units.of.Measure, Arithmetic.Mean, AQI, Date.of.Last.Change, Local.Site.Name, X1st.Max.Value, X1st.Max.Hour) 
+Nitrogen_dioxide <- Nitrogen_dioxide %>% select(State.Name, State.Code, Latitude, Longitude, Date.Local, Units.of.Measure, Arithmetic.Mean, AQI, Date.of.Last.Change, Local.Site.Name, X1st.Max.Value, X1st.Max.Hour) 
+Particulate_matter <- Particulate_matter %>% select(State.Name, State.Code, Latitude, Longitude, Date.Local, Units.of.Measure, Arithmetic.Mean, AQI, Date.of.Last.Change, Local.Site.Name, X1st.Max.Value, X1st.Max.Hour) 
+```
+
+```{r}
+Lead <- Lead_in_air %>% group_by(State.Name) %>% summarize(annualmean.PB = mean(Arithmetic.Mean)) 
+PM <- Particulate_matter %>% group_by(State.Name) %>% summarize(annualAQI.PM = mean(AQI), annualmean.PM = mean(Arithmetic.Mean))
+#Note that parts per billion is the same measure as one half of micrograms per cubic meter 
+#So we change the units to our familiar micrograms per cubic meter and multiply every entry for our average by 2, we need this for nitrogen dioxide only 
+#Also do note that the AQI variable may not be of too much use for this (Nitro table) but I'll keep it in case it proves to be good for comparison
+NO2 <- Nitrogen_dioxide %>% group_by(State.Name) %>% summarize(annualmean.NO2 = mean(Arithmetic.Mean), annualAQI.NO2 = mean(AQI))
+NO2[[2]] <- (2*NO2[[2]])
+```
+
+
+```{r}
+Pollutants <- PM %>% left_join(NO2, by=c("State.Name"="State.Name"))
+Pollutants <- Pollutants %>% left_join(Lead, by=c("State.Name"="State.Name"))
+```
+
+
+***Join the Pollutants tables with the CDC (cancer) data tables, then clean***
+
+```{r}
+Incidence_from_pollutants <- Cancer_incidence %>% left_join(Pollutants, "State.Name"="State.Name")
+Deaths_from_pollutants <- Cancer_deaths %>% left_join(Pollutants, "State.Name"="State.Name")
+
+Temp <- Deaths_from_pollutants %>% select(State.Name, rate)
+Temp <- Temp %>% rename(death.rate = rate)
+Cancer.pollution.data <- Incidence_from_pollutants %>% left_join(Temp, by=c("State.Name"="State.Name"))
+Cancer.pollution.data <- Cancer.pollution.data %>% rename(incidence.rate = rate)
+ 
+#we need to change the order, death.rate, and incidence.rate variables (all of the data from the CDC, coincidentally) from character to numeric
+Cancer.pollution.data$order <- as.numeric(Cancer.pollution.data$order)
+Cancer.pollution.data$incidence.rate <- as.numeric(Cancer.pollution.data$incidence.rate)
+Cancer.pollution.data$death.rate <- as.numeric(Cancer.pollution.data$death.rate)
+```
+
+###Step 2: Perform statistical analysis; create plots
+
+Here, I will create tables that will allow me to graph a pollutant variable along with a cancer rate variable, each by state. Instead of having the x axis be "State.Names", which would cause the axis of the plot to be very hard to read, I will have the x variable be "order", which not only conviniently holds the values of the states that we want, but the order variable already numbers the states in rank from highest incidence rate (number 1), to lowest incidence rate (number 50).  
+```{r}
+#for mean volume of PM
+CnarrowPM <- Cancer.pollution.data %>% gather(key=respective.rates, value=rate, incidence.rate, annualmean.PM)
+DnarrowPM <- Cancer.pollution.data %>% gather(key=respective.rates, value=rate, death.rate, annualmean.PM)
+
+# "The guideline for particulate matter of 10 microns in diameter or less is 20 micrograms (our data is reported in micrograms) per cubic meter as an average over the course of one year."
+C.PM <- CnarrowPM %>% ggplot(aes(x=order, y=rate, group=respective.rates, color=respective.rates)) + geom_point() + stat_smooth(method = lm, se = TRUE) + geom_hline(yintercept=20) + scale_x_discrete(limit = c(1:50))
+D.PM <- DnarrowPM %>% ggplot(aes(x=order, y=rate, group=respective.rates, color=respective.rates)) + geom_point() + stat_smooth(method = lm, se = TRUE) + geom_hline(yintercept=20) + scale_x_discrete(limit = c(1:50)) 
+```
+
+It is important to note: My analysis of the graphs I will be making is based on the thought: *I theorize that if the regression lines are closer in slope, the pollutants are better at explaining lung cancer.* (the "order" variable and how it orders - for lack of a different term - the States by highest to lowest incidence rate, is what will particularly allow us to use this logic.)
+
+```{r}
+CnarrowNO2 <- Cancer.pollution.data %>% gather(key=respective.rates, value=rate, incidence.rate, annualmean.NO2)
+DnarrowNO2 <- Cancer.pollution.data %>% gather(key=respective.rates, value=rate, death.rate, annualmean.NO2)
+
+# "The current WHO guideline value of 40 µg/m3 (annual mean) was set to protect the public from the health effects of gaseous."
+C.NO2 <- CnarrowNO2 %>% ggplot(aes(x=order, y=rate, group=respective.rates, color=respective.rates)) + geom_point() + stat_smooth(method = lm, se = TRUE) + geom_hline(yintercept=40) + scale_x_discrete(limit = c(1:50))
+D.NO2 <- DnarrowNO2 %>% ggplot(aes(x=order, y=rate, group=respective.rates, color=respective.rates)) + geom_point() + stat_smooth(method = lm, se = TRUE) + geom_hline(yintercept=40) + scale_x_discrete(limit = c(1:50))
+```
+
+```{r}
+CnarrowPB <- Cancer.pollution.data %>% gather(key=respective.rates, value=rate, incidence.rate, annualmean.PB)
+#PB, regarding the elemental abbreviation for Lead
+DnarrowPB <- Cancer.pollution.data %>% gather(key=respective.rates, value=rate, death.rate, annualmean.PB)
+
+# "(approximate guideline of) 0.5 micrograms per cubic meter as a yearly average"
+C.PB <- CnarrowPB %>% ggplot(aes(x=order, y=rate, group=respective.rates, color=respective.rates)) + geom_point() + stat_smooth(method = lm, se = TRUE) + geom_hline(yintercept=0.5) + scale_x_discrete(limit = c(1:50))
+D.PB <- DnarrowPB %>% ggplot(aes(x=order, y=rate, group=respective.rates, color=respective.rates)) + geom_point() + stat_smooth(method = lm, se = TRUE) + geom_hline(yintercept=0.5) + scale_x_discrete(limit = c(1:50))
+```
+
+```{r}
+C.PM
+D.PM
+C.NO2
+D.NO2
+C.PB
+D.PB
+```
+
+When reading the tables:
+
+* Refer to the legends to understand what we're comparing.
+
+* Understand that the distance between the two smoothers is trivial, what we are focusing on is their slope, the distance is trivial because the two different kinds of "rates" are quantified on unrelated scales, I allowed for that in order to be able to graph the relations on the same plot.
+
+* The black horizontal line (the WHO guideline) and the red smoother (or the pollutant variable smoother) are relative to the same scale however, so when reading: if the smoother is above the hline, then that means the annual mean surpassed the EPA guideline (which is a bad thing for human health), and when it (the smoother) is below, that is more favorable for human health.
+
+
+###Conclusions
+
+With all of this being said, all 6 of my data comparisons have results that are inconclusive; I cannot support my hypothesis that air pollutants can directly describe cancer rates. This is apparent in the plots because all of the plots have one smoother of positive slope, and one of negative slope. Some reasons why my hypothesis is incorrect are: a lot of other things cause lung cancer, like cigarette smoking in particular. The World Health Organization also [cites](http://www.who.int/mediacentre/factsheets/fs313/en/) particulate matter, which they deem to be the worst and most dangerous pollutant in our air, primarily causes premature death/disease via inducing heart disesase and stroke in its victims; and only 14% of the deaths that (air pollution) caused were via a contraction of lung cancer.
+
+
+
+
+
