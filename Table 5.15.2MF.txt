@@ -1,0 +1,52 @@
+	Display Order	Location	Rate
+	1	Kentucky	69.5
+	2	Arkansas	60.4
+	3	Mississippi	58.6
+	4	West Virginia	56.9
+	5	Oklahoma	56.8
+	6	Tennessee	56.4
+	7	Maine	55.1
+	8	Missouri	54.8
+	9	Alabama	54.7
+	10	Indiana	54.3
+	11	Louisiana	53.8
+	12	Ohio	51.3
+	13	Rhode Island	50.5
+	14	South Carolina	49.3
+	15	North Carolina	49.1
+	16	Michigan	47.9
+	17	Delaware	47.6
+	18	Alaska	47.3
+	19	Iowa	46.8
+	20	Georgia	46.4
+	21	Illinois	45.9
+	22	Nevada	45.5
+	23	Pennsylvania	45.1
+	24	Kansas	44.2
+	25	Virginia	43.4
+	26	Nebraska	42.8
+	27	District of Columbia	42.7
+	28	Florida	42.6
+	29	Wisconsin	42.5
+	30	Vermont	42.5
+	31	Oregon	42.2
+	32	New Hampshire	42.1
+	33	Massachusetts	41.6
+	34	Maryland	41.1
+	35	North Dakota	41.0
+	36	South Dakota	40.9
+	37	Washington	39.9
+	38	New York	39.6
+	39	Minnesota	39.0
+	40	Texas	38.7
+	41	New Jersey	38.6
+	42	Connecticut	37.7
+	43	Montana	37.6
+	44	Idaho	36.2
+	45	Wyoming	35.9
+	46	Arizona	35.3
+	47	Hawaii	32.3
+	48	California	32.1
+	49	New Mexico	30.5
+	50	Colorado	29.9
+	51	Utah	18.7
