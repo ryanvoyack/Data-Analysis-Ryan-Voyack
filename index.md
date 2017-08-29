@@ -1,4 +1,4 @@
 ## welcome titters 
 
-
+hello please click [here](file:///C:/Users/ryan%20voyack/Documents/PSU%20(courses,etc)%20&%20Act-Sci%20(exams,%20etc)/Courses%20Undergrad%20(R%3B%20STAT)/Stat%20184/final%20project/stat_project_1_final_copy.html)
 
