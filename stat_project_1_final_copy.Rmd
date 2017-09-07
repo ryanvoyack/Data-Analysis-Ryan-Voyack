@@ -1,9 +1,12 @@
 ---
 title: "Stat project"
 author: "Ryan Voyack"
-output: html_document
+output:
+  html_document: default
+  pdf_document: default
 ---
 due: "December 9, 2016"
+
 
 ```{r echo=FALSE, results='asis'}
 cat("Source Documents: ")
@@ -170,7 +173,7 @@ It is important to note: My analysis of the graphs I will be making is based on 
 CnarrowNO2 <- Cancer.pollution.data %>% gather(key=respective.rates, value=rate, incidence.rate, annualmean.NO2)
 DnarrowNO2 <- Cancer.pollution.data %>% gather(key=respective.rates, value=rate, death.rate, annualmean.NO2)
 
-# "The current WHO guideline value of 40 Âµg/m3 (annual mean) was set to protect the public from the health effects of gaseous."
+# "The current WHO guideline value of 40 µg/m3 (annual mean) was set to protect the public from the health effects of gaseous."
 C.NO2 <- CnarrowNO2 %>% ggplot(aes(x=order, y=rate, group=respective.rates, color=respective.rates)) + geom_point() + stat_smooth(method = lm, se = TRUE) + geom_hline(yintercept=40) + scale_x_discrete(limit = c(1:50))
 D.NO2 <- DnarrowNO2 %>% ggplot(aes(x=order, y=rate, group=respective.rates, color=respective.rates)) + geom_point() + stat_smooth(method = lm, se = TRUE) + geom_hline(yintercept=40) + scale_x_discrete(limit = c(1:50))
 ```
