@@ -1,6 +1,5 @@
-## welcome titters 
 
-description: hello please click [here](file:///C:/Users/ryan%20voyack/Documents/PSU%20(courses,etc)%20&%20Act-Sci%20(exams,%20etc)/Courses%20Undergrad%20(R%3B%20STAT)/Stat%20184/final%20project/stat_project_1_final_copy.html)
+description: My first data analysis project, using the skills I learned in my first R programming class, can be found [here](http://rpubs.com/ryanvoyack/305351). This project was completed and submitted for the class's final project assignment during finals week, on December 9th, 2016. This project focused on the techniques learned in the "Introduction to R" class, which included tidying data sets, graphing functions, and web scraping in order to achieve graphical analysis while also formatting documents and code to be (more easily) reproducable and readable.   
 
 
 
