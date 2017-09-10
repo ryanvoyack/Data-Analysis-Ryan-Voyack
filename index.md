@@ -6,7 +6,7 @@
 
 
 <header>
-Skills acquired after my first course in R: 
+  Skills acquired after my first course in R: 
 </header>
 
 
