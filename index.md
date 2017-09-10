@@ -1,6 +1,7 @@
 
 <Header>
-12.9.2016: Skills acquired after my first course in R: 
+12.9.2016
+Skills acquired after my first course in R: 
 </header>
 
 
