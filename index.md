@@ -1,6 +1,10 @@
 
+
 <Header>
 12.9.2016
+</header>
+
+<header>
 Skills acquired after my first course in R: 
 </header>
 
