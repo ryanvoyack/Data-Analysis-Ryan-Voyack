@@ -14,11 +14,18 @@ My first data-analysis project, using the skills I learned in Introduction to R 
 ## Building an interactive Shiny App that utilizes web scraping in order to Visualize Financial Statements and Compare Companies 
 
 <Header>
+    as of 12.11.2017
+</header>
+
+My first Shiny App, using the skills I learned in Stat: Special Topics at PSU, can be found [here]() . This app was perfected *after* the end of the class where this app had originally been assigned as a final project, this class ended on December 11th, 2017 (I want to credit my team members [Andrea Wan](https://github.com/andywwwww) and [Marshall Malino](https://github.com/spearman666) for their contribution to this [first version](https://github.com/andywwwww/group3_project) - an elaboration on their specific contributions can be found in the repository for my continuation, below). This project focused on using function writing and package building in order to create an interactive web app. The completion of this project for the class required an app and a package that contained any functions.
+
+<Header>
     as of 1.27.2018
 </header>
 
+The app's perfection. The current publication is version 0.1.0, this was completed following a group project at PSU.
 
-The app's perfection. The current publication is version 1.0, this was completed following a group project at PSU.
+Since the conclusion of the class, I have built upon and perfected the idea. My final product is provided in a [repository](https://github.com/ryanvoyack/financialStatementPlot) that serves as a package which includes the functions, their documentation and the Shiny App itself - such that if a user wants to download my package, they could enter 
+```devtools::install_github("ryanvoyack/financialStatementPlot")``` in their R console. To clarify, my package contains my continuation of this group project - as I feel that I took the creative lead role in our group and that we did not have enough time to render the app as I had envisioned.
 
 
-My first Shiny App, using the skills I learned in Stat: Special Topics at PSU, can be found [here]() . This app was perfected after the end of the class where this app had [originally](https://github.com/andywwwww/group3_project) been assigned as a final project, this class ended on December 11th, 2017. This project focused on using function writing and package building in order to create an interactive web app. The completion of this project for the class required an app and a package that contained any functions, since the conclusion of the class, I have built upon and perfected the idea. The final product is provided in a [repository](https://github.com/ryanvoyack/financialStatementPlot) that contains a package which includes the functions, their documentation and the Shiny App itself - such that if a user wants to download my package, they could enter ```devtools::install_github("ryanvoyack/financialStatementPlot")``` in their R console.
