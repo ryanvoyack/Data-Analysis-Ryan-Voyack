@@ -5,7 +5,7 @@ The research opportunity with the Department of Statistics at PSU this past summ
 <Header>
     as of 7.29.2018
 </Header>
-Currently, the Department is working on publishing these 4 apps in quesiton onto their university web page. Also, my tic tac toe app (the original) is published on my [personal Shinyapps account](https://ryanvoyack.shinyapps.io/tic-tac-toe/). I am very proud of this code, there were many challanges, and the end product couldn't have been accomplished had it not been for a great display of reactive programming in the [server logic](https://github.com/ryanvoyack/PSU-shiny-research/blob/master/tic-tac-toe/server.R). All files for this game can be viewed [here](https://github.com/ryanvoyack/PSU-shiny-research/tree/master/tic-tac-toe).
+Currently, the Department is working on publishing these 4 apps in quesiton onto their university web page. Also, my tic tac toe app (the original) is published on my [personal Shinyapps account](https://ryanvoyack.shinyapps.io/tic-tac-toe) . I am very proud of this code, there were many challanges, and the end product couldn't have been accomplished had it not been for a great display of reactive programming in the [server logic](https://github.com/ryanvoyack/PSU-shiny-research/blob/master/tic-tac-toe/server.R) . All files for this game can be viewed [here](https://github.com/ryanvoyack/PSU-shiny-research/tree/master/tic-tac-toe) .
 
 <br>
 <br>
