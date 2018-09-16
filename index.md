@@ -5,6 +5,7 @@ The research opportunity with the Department of Statistics at PSU this past summ
 <Header>
     as of 7.29.2018
 </Header>
+
 Currently, the Department is working on publishing these 4 apps in quesiton onto their university web page. Also, my tic tac toe app (the original) is published on my [personal Shinyapps account](https://ryanvoyack.shinyapps.io/tic-tac-toe) . I am very proud of this code, there were many challanges, and the end product couldn't have been accomplished had it not been for a great display of reactive programming in the [server logic](https://github.com/ryanvoyack/PSU-shiny-research/blob/master/tic-tac-toe/server.R) . All files for this game can be viewed [here](https://github.com/ryanvoyack/PSU-shiny-research/tree/master/tic-tac-toe) .
 
 <br>
@@ -15,7 +16,7 @@ Currently, the Department is working on publishing these 4 apps in quesiton onto
 
 <Header>
     as of 12.9.2016
-</header>
+</Header>
 
 
 The project's first publication, using skills acquired after competing my first course in R: 
@@ -31,10 +32,10 @@ My first data-analysis project, using the skills I learned in Introduction to R 
 
 <Header>
     as of 1.27.2018
-</header>
+</Header>
 
 
 The app's perfection. The current publication is version 1.0, this was completed following a group project at PSU.
 
 
-My first Shiny App, using the skills I learned in Stat: Special Topics at PSU, can be found [here]() . This app was perfected after the end of the class where this app had [originally](https://github.com/andywwwww/group3_project) been assigned as a final project, this class ended on December 11th, 2017. This project focused on using function writing and package building in order to create an interactive web app. The completion of this project for the class required an app and a package that contained any functions, since the conclusion of the class, I have built upon and perfected the idea. The final product is provided in a [repository](https://github.com/ryanvoyack/financialStatementPlot) that contains a package which includes the functions, their documentation and the Shiny App itself.
+My first Shiny App, using the skills I learned in Stat: Special Topics at PSU, can be found [here](https://ryanvoyack.shinyapps.io/financialPlots/) . This app was perfected after the end of the class where this app had [originally](https://github.com/andywwwww/group3_project) been assigned as a final project, this class ended on December 11th, 2017. This project focused on using function writing and package building in order to create an interactive web app. The completion of this project for the class required an app and a package that contained any functions, since the conclusion of the class, I have built upon and perfected the idea. The final product is provided in a [repository](https://github.com/ryanvoyack/financialStatementPlot) that contains a package which includes the functions, their documentation and the Shiny App itself.
