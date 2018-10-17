@@ -38,5 +38,9 @@ My first data-analysis project, using the skills I learned in Introduction to R 
 The app's perfection. The current publication is version 1.0, this was completed following a group project at PSU.
 
 
-My first Shiny App, using the skills I learned in Stat: Special Topics at PSU, can be found [here](https://ryanvoyack.shinyapps.io/financialPlots/) . This app was perfected after the end of the class where this app had [originally](https://github.com/andywwwww/group3_project) been assigned as a final project, this class ended on December 11th, 2017. This project focused on using function writing and package building in order to create an interactive web app. The completion of this project for the class required an app and a package that contained any functions, since the conclusion of the class, I have built upon and perfected the idea. The final product is provided in a [repository](https://github.com/ryanvoyack/financialStatementPlot) that contains a package which includes the functions, their documentation and the Shiny App itself.
-
+My first Shiny App, using the skills I learned in Stat: Special Topics at PSU, can be found [here](https://ryanvoyack.shinyapps.io/financialPlots/) . This app was perfected after the end of the class where this app had [originally](https://github.com/andywwwww/group3_project) been assigned as a final project, this class ended on December 11th, 2017. This project focused on using function writing and package building in order to create an interactive web app. The completion of this project for the class required an app and a package that contained any functions, since the conclusion of the class, I have built upon and perfected the idea. The final product is provided in a [repository](https://github.com/ryanvoyack/financialStatementPlot) that contains a package which includes the functions, their documentation and the Shiny App itself. If you want to install and use this package, run
+```
+require("devtools")
+devtools::install_github("ryanvoyack/financialStatementPlot")
+```
+in your R console. 
